@@ -1,28 +1,16 @@
-import urllib.request
-import json
+url = "https://api.mvola.com/v1/payments"
 
-# Définissez l'URL de l'API MVola
-mvola_url = 'https://mvola.com/api/'
-
-# Définissez les paramètres de la requête
-params = {
-    'phone': '+26100000000',
-    'amount': 1000,
-    'reference': 'MyTransaction'
+data = {
+    "amount": 1000,
+    "description": "Paiement de test",
+    "phone": "+26133770001",
 }
 
-# Encodez les paramètres de la requête en tant que chaîne de caractères
-data = urllib.parse.urlencode(params)
+data = json.dumps(data).encode("utf-8")
 
-# Envoyez la requête en utilisant urllib
-with urllib.request.urlopen(mvola_url, data) as response:
-    # Récupérez la réponse en tant que chaîne de caractères JSON
-    response_data = response.read().decode('utf-8')
+req = urllib.request.Request(url, data=data, method="POST")
 
-    # Décodez la réponse JSON en tant qu'objet Python
-    response_obj = json.loads(response_data)
-
-    # Affichez les détails de la transaction
-    print(response_obj['status'])
-    print(response_obj['amount'])
-    print(response_obj['reference'])
+with urllib.request.urlopen(req) as response:
+    response_data = response.read().decode("utf-8")
+    payment = json.loads(response_data)
+    print(payment)
