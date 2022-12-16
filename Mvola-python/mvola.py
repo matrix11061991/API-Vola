@@ -1,13 +1,12 @@
 import mvola
-# Initialisation l'objet mVola avec votre clé d'API et votre secret
-mvola_client = mvola.MVolaClient(api_key="votre_clé_api", api_secret="votre_secret")
 
-# Définition des détails du transfert d'argent, tels que le montant, le numéro de téléphone du destinataire, etc.
-amount = 100 # le montant à transférer, en Ariary
-phone = "034xxxxxxx" # le numéro de téléphone du destinataire
-description = "Paiement pour les courses" # une description du transfert
+# Initialiser un client MVola
+mvola_client = mvola.Client(username="votre_nom_d'utilisateur", password="votre_mot_de_passe")
 
-# Effectuez le transfert d'argent
-response = mvola_client.transfer_money(amount, phone, description)
-# Affichez la réponse du serveur
-print(response)
+# Transférer de l'argent
+response = mvola_client.transfer(amount=1000, recipient="+2572222222", message="Paiement de facture")
+
+if response.status_code == 200:
+  print("Le transfert a été effectué avec succès")
+else:
+  print("Le transfert a échoué")
